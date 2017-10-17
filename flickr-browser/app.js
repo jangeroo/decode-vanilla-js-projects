@@ -27,7 +27,7 @@ function getPhotosForSearch(query) {
         } */
         .then(photoData => photoData.map(photo => {
             return {
-                thumb: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_t.jpg`,
+                thumb: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_s.jpg`,
                 large: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`,
                 title: photo.title
             }
@@ -72,7 +72,7 @@ searchForm.addEventListener('submit', function() {
         gallery.innerHTML = ''
         photos.forEach(photo => {
             gallery.appendChild(createFlickrThumb(photo))
-            console.log(photo)
+            // console.log(photo)
         })
     })
 })
