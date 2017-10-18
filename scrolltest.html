@@ -1,0 +1,91 @@
+<html>
+    <style>
+        #oe{
+            border: 2px solid red;
+            padding:10px;
+            margin:10px;
+            background:white;
+            position:fixed;
+            top:0;
+            left:0;
+        }
+        #pos{
+            border: 2px solid red;
+            padding:10px;
+            margin:10px;
+            background:white;
+            position:fixed;
+            top:0;
+            right:0;
+        }
+
+    </style>
+<body>
+    <div id="oe">calc</div>
+    <div id="pos">?</div>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas aliquam erat eget arcu tristique varius. Nullam semper ipsum ac lectus tincidunt dapibus. Praesent condimentum iaculis enim at aliquam. Sed eu ante sit amet elit vulputate tempus. Mauris semper nisl eu ante venenatis sagittis. Phasellus sed sapien ipsum. Etiam id tortor massa.
+
+    Donec vel dolor odio, eu faucibus nulla. Aenean quis nisl neque. Duis non ipsum vel ante tincidunt congue. Phasellus orci eros, gravida ut adipiscing et, interdum id nibh. Nam ac lectus massa, in volutpat quam. Suspendisse in convallis justo. Aliquam tristique, ipsum vitae posuere blandit, mauris justo congue quam, sed malesuada augue tellus in lorem. Vestibulum id eros ut dui auctor tincidunt. Donec euismod mollis erat, eget auctor risus luctus non. Curabitur non diam felis. Etiam feugiat augue non ipsum hendrerit sit amet ultricies diam convallis. Cras ac interdum neque. Duis sed lectus at augue eleifend molestie. Pellentesque id orci nibh, vitae fermentum felis. Ut diam libero, molestie non aliquet nec, facilisis mattis lacus.
+
+    Morbi elementum consectetur scelerisque. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam suscipit tellus quis quam elementum ultricies. Maecenas non placerat odio. Aliquam tortor nisl, euismod dignissim porta a, tempus et risus. Phasellus ornare, sem et lacinia varius, quam velit tempor risus, laoreet convallis augue ipsum nec eros. Nullam eleifend consequat rhoncus. Integer fringilla venenatis dolor sit amet euismod. Fusce ultrices, odio quis mollis rhoncus, massa ligula suscipit tellus, at imperdiet dui mi eu enim.
+
+    Phasellus ac mauris a enim bibendum lobortis. Pellentesque at purus nibh. Proin luctus quam vel risus feugiat mollis. Morbi dignissim, sem vitae placerat pellentesque, nibh metus tempor diam, sit amet volutpat lacus metus at quam. Nam ultricies leo sed erat tempor vel volutpat tellus tristique. Suspendisse id ante libero. Vivamus convallis fermentum leo, at suscipit turpis eleifend nec. Suspendisse mauris arcu, scelerisque sit amet bibendum eget, egestas ac velit. Nulla in velit a odio sodales pharetra sit amet a nisi. Nulla accumsan velit erat. Vivamus scelerisque nulla id magna mollis venenatis. Nunc sit amet sem nec tellus porta auctor. Nam justo tellus, adipiscing id consequat at, fermentum eu urna. Aliquam euismod ante ac odio feugiat eu adipiscing tellus elementum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla facilisi.
+
+    Maecenas tortor nulla, mollis quis tempor et, tempor in enim. Maecenas ante velit, gravida et tristique sollicitudin, molestie posuere enim. Mauris auctor imperdiet neque, a ultricies turpis volutpat vel. Nunc in varius dui. Fusce sit amet consequat velit. Quisque ac tortor orci, eget tempor magna. Vestibulum commodo, libero vel varius mattis, erat quam scelerisque elit, a condimentum purus dui id velit.
+</body>
+
+<script>
+    // var d=document.getElementById('oe');
+    // var p=document.getElementById('pos');
+
+    // if(window.addEventListener){
+    //     window.addEventListener('scroll',scroll)
+    // }else if(window.attachEvent){
+    //     window.attachEvent('onscroll',scroll);
+    // }
+
+    // function scroll(ev) {
+    //     var st = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
+    //     d.innerHTML= (st + '<br>'
+    //         + document.documentElement.clientHeight + '<br>'
+    //         + (st+document.documentElement.clientHeight) + '<br>'
+    //         + document.documentElement.scrollHeight
+    //     )
+    //     if(!st) {
+    //         p.innerHTML='top';
+    //     } else if ((st + document.documentElement.clientHeight) >= document.documentElement.scrollHeight ) {
+    //         p.innerHTML='bottom';
+    //     } else {
+    //         p.innerHTML='between';    
+    //     }
+            
+    // }
+    var d=document.getElementById('oe');
+    var p=document.getElementById('pos');
+
+    if(window.addEventListener){
+        window.addEventListener('scroll',scroll)
+    }else if(window.attachEvent){
+        window.attachEvent('onscroll',scroll);
+    }
+
+    function scroll(ev){
+        var st = Math.max(document.documentElement.scrollTop,document.body.scrollTop);
+        d.innerHTML='top of frame: ' + st + '<br>' + 
+            document.documentElement.clientHeight + '<br>' + 
+            (st+document.documentElement.clientHeight) + '<br>' +
+            document.documentElement.scrollHeight ;
+        if(!st){
+                p.innerHTML='top';
+        }else if((st+document.documentElement.clientHeight)>=document.documentElement.scrollHeight ){
+            p.innerHTML='bottom';
+        }else{
+            p.innerHTML='between';    
+        }
+        
+    }
+
+
+</script>
+
+</html>
