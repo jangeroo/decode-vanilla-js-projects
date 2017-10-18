@@ -4,15 +4,27 @@ var API_KEY = `fc042f8aa30bb1940a5362baca37fed8`
 // `https://api.flickr.com/services/rest/?method=flickr.photos.search&format=json&nojsoncallback=1&api_key=${API_KEY}&text=${query}`
 var FLICKR_API_QUERY_URL = `${FLICKR_API_URL}/?${FLICKR_API_PARAMS}&api_key=${API_KEY}`
 
-
-function getPhotosForSearch(query) {
+var pageCounter = 1
+var totalPages
+function getPhotosForSearch(query, page) {
     // console.log(`fetching photos from flickr that match '${query}'...`)
-    var request = `${FLICKR_API_QUERY_URL}&text=${query}`
+    var request = `${FLICKR_API_QUERY_URL}&text=${query}&page=${page}`
     // console.log(request)
 
     return (fetch(request)
-        .then(response => response.json())
-        .then(data => data.photos.photo)
+        .then(response => {
+            console.log('RESPONSE')
+            console.log(response)
+            return response.json()
+        })
+        // .then(whatever => console.log(whatever))
+        .then(data => {
+            console.log('DATA')
+            console.log(`TOTAL PAGES: ${data.photos.pages}`)
+            console.log(data)
+            totalPages = data.photos.pages
+            return data.photos.photo
+        })
         /* This extracts each photo as an object with the following properties
         {
             farm: 5,
@@ -25,14 +37,33 @@ function getPhotosForSearch(query) {
             server: "4493",
             title: "Rose"
         } */
-        .then(photoData => photoData.map(photo => {
-            return {
-                thumb: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_s.jpg`,
-                large: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`,
-                title: photo.title
-            }
-        }))
+        .then(photoData => {
+            console.log('PHOTODATA')
+            console.log(photoData)
+            return photoData.map(photo => {
+                return {
+                    thumb: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_s.jpg`,
+                    large: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`,
+                    title: photo.title
+                }
+            })
+        })
     )
+}
+
+function searchAndDisplayPhotos(query, infinite) {
+    console.log(`searching for photos matching: ${query}`)
+    getPhotosForSearch(query)
+    .then(photos => {
+        // console.log(photos)
+        if (!infinite) {
+            gallery.innerHTML = ''
+        }
+        photos.forEach(photo => {
+            gallery.appendChild(createFlickrThumb(photo))
+            // console.log(photo)
+        })
+    })
 }
 
 function createFlickrThumb(photoData) {
@@ -56,23 +87,26 @@ function createFlickrThumb(photoData) {
 
 
 var app = document.querySelector('#app')
-
 var gallery = app.querySelector('#gallery')
 var searchForm = app.querySelector('.search-form')
 var searchInput = app.querySelector('.search-input')
 
+var query
+
 searchForm.addEventListener('submit', function() {
     event.preventDefault()
     
-    var query = searchInput.value
-    gallery.innerHTML = `Loading images matching '${query}'`
-    getPhotosForSearch(query)
-    .then(photos => {
-        // console.log(photos)
-        gallery.innerHTML = ''
-        photos.forEach(photo => {
-            gallery.appendChild(createFlickrThumb(photo))
-            // console.log(photo)
-        })
-    })
+    query = searchInput.value
+    gallery.innerHTML = `Loading images matching '${query}'...`
+    searchAndDisplayPhotos(query)
 })
+
+document.addEventListener('scroll', function () {
+    var scrollHeight = document.documentElement.scrollHeight
+    var scrollTop = document.documentElement.scrollTop
+    var clientHeight = document.documentElement.clientHeight
+    if (scrollHeight == (scrollTop + clientHeight)) {
+        // alert(`Bottom! Query is still: ${query}`);
+        searchAndDisplayPhotos(query, infinite=true)
+    }
+});
